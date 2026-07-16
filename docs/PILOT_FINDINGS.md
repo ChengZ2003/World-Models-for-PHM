@@ -66,7 +66,7 @@ No schema migration is proposed in Phase 1B. These gaps do not block the current
 
 | Ambiguity | Relevant pilot IDs | Human finding | Proposed clarification |
 | --- | --- | --- | --- |
-| One-step latent prediction versus strict world-model status | `wm-failure-autonomous-inspection-2026`; `foundational-wm-bimanual-failures-2026` | TODO | TODO |
+| One-step versus multi-step latent prediction and strict world-model status | `wm-failure-autonomous-inspection-2026`; `foundational-wm-bimanual-failures-2026` | TODO | Compare the one-step inspection model with the bimanual model's 32-step autoregressive curriculum. |
 | Conditional reconstruction versus learned transition | `omni-anomaly-2019` | TODO | TODO |
 | Joint one-step forecasting and reconstruction | `mtad-gat-2020` | TODO | TODO |
 | Direct or probabilistic scalar RUL prediction | `rul-end-to-end-representations-2021`; `ensemble-rul-2023`; `functional-rul-2019` | TODO | TODO |

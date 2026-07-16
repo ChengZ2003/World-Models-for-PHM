@@ -7,7 +7,7 @@
 - Venue: arXiv preprint
 - Official paper source: https://arxiv.org/abs/2602.16182
 - Official code source: https://github.com/autoinspection-classification/GaugeFailClassification
-- Tasks: anomaly detection; anticipatory failure classification
+- Tasks: anomaly detection (online or anticipatory failure detection during an evolving trajectory)
 - Datasets: gauge-inspection videos collected in office and industrial environments
 - Tentative scope: `strict_world_model`
 - Tentative confidence: `low`
@@ -19,7 +19,7 @@ The authors explicitly call the predictive backbone a world model. They describe
 
 ## Our Preliminary Classification
 
-`strict_world_model` is a deliberately debatable pilot proposal. The method has an explicit compressed state and a learned temporal predictor whose residuals support early failure and OOD detection. However, the demonstrated transition is one-step, action conditioning is absent, and no planning or counterfactual rollout is evaluated. Human reviewers should decide whether these limitations instead imply `world_model_like`.
+`strict_world_model` is a deliberately debatable pilot proposal. The method has an explicit compressed state and a learned temporal predictor whose residuals support online failure and OOD detection. It can detect a developing failure earlier than a human observer, but the paper does not define a separately labelled future gap or prediction horizon matching this repository's formal anomaly-prediction protocol. The demonstrated transition is one-step, action conditioning is absent, and no planning or counterfactual rollout is evaluated. Human reviewers should decide whether these limitations instead imply `world_model_like`.
 
 ## State Representation
 
@@ -39,7 +39,7 @@ Equation 7 combines a weighted pixel reconstruction term, temporal-consistency r
 
 ## Downstream Use
 
-Prediction and latent residual scores are used with two calibrated decision functions to classify an inspection trajectory as success, known failure, or OOD anomaly. The stated operational goal is earlier detection of conditions that prevent a reliable gauge reading.
+Prediction and latent residual scores are used with two calibrated decision functions to classify an inspection trajectory as success, known failure, or OOD anomaly. The method provides online or anticipatory detection as evidence accumulates during an evolving operation and may detect failure before a human observer. This timing advantage is not treated as the separate `anomaly_prediction` task because the paper does not specify the repository's formal future-window mapping from an observed history to anomaly probability over a future gap and horizon.
 
 ## Inclusion Questions
 
@@ -48,7 +48,7 @@ Prediction and latent residual scores are used with two calibrated decision func
 | q1: dynamic-system state representation | yes | Figure 3; Section III-E |
 | q2: learned transition mechanism | yes | Section III-E; latent prediction `z[t+1]` |
 | q3: future-state prediction or simulation | yes | next-frame prediction in Figure 3 |
-| q4: future evolution used for PHM | yes | Table I; Section IV early failure/OOD classification |
+| q4: future evolution used for PHM | partial | Table I; Section IV uses next-frame residuals for online failure/OOD detection, not a labelled future anomaly horizon |
 | q5: dynamics central rather than auxiliary | yes | world-model scores drive classification |
 | q6: rollout uncertainty or counterfactual support | partial | conformal calibration is present; multi-step and counterfactual rollout are absent |
 | q7: mechanism meaningful without terminology | partial | predictive latent mechanism is substantive but strict status is debatable |
@@ -60,12 +60,13 @@ Prediction and latent residual scores are used with two calibrated decision func
 | State representation | Figure 3; Section III-E | Cosmos tokens form the compressed scene state. |
 | Transition mechanism | Figure 3; Section III-E | Learned latent predictor advances to the next frame. |
 | Future prediction | Equation 7 | Training explicitly scores predicted against ground-truth next frames. |
-| Downstream PHM use | Table I; Section IV | Prediction and latent deviations become failure/OOD scores. |
+| Downstream PHM use | Table I; Section IV | Prediction and latent deviations become online failure/OOD scores; earlier detection is not formal future-window anomaly prediction. |
 | Dynamics centrality | Figure 5; Section III-F | Calibrated world-model scores are central to the decision rule. |
 
 ## Open Questions
 
 - Should one-step visual prediction without actions satisfy the strict category?
+- Decide whether a future repository category should distinguish anticipatory online detection from explicit future-window anomaly prediction.
 - Review whether the industrial gauge task falls inside the repository's PHM boundary or is adjacent inspection reliability.
 - Verify the released code and subset data independently; no reproduction is claimed.
 

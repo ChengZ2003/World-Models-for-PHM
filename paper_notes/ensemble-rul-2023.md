@@ -4,8 +4,10 @@
 
 - Authors: Abhishek Srinivasan; Juan Carlos Andresen; Anders Holst
 - Year: 2023
-- Venue: 4th Asia Pacific Conference of the Prognostics and Health Management Society
-- Official paper source: https://arxiv.org/abs/2309.12445
+- Venue: PHM Society Asia-Pacific Conference
+- DOI: https://doi.org/10.36001/phmap.2023.v4i1.3611
+- Official paper source: https://papers.phmsociety.org/index.php/phmap/article/view/3611
+- Author-version source: https://arxiv.org/abs/2309.12445
 - Official code source: not confirmed
 - Tasks: probabilistic RUL prediction
 - Datasets: NASA C-MAPSS FD001-FD003
@@ -15,7 +17,7 @@
 
 ## Claimed World Model Definition
 
-The authors do not use the term “world model.” They propose an ensemble of LSTM predictors that separates aleatoric and epistemic components of predictive RUL uncertainty.
+The authors do not use the term “world model.” They propose an ensemble of LSTM predictors that separates aleatoric and epistemic components of predictive RUL uncertainty. The PHM Society DOI metadata and the arXiv PDF use the spelling `Abhishek Srinivasan`; the review-suggested `Ahbishek` spelling was not supported by either official source.
 
 ## Our Preliminary Classification
 
@@ -67,7 +69,7 @@ The authors motivate uncertainty separation for maintenance risk interpretation 
 
 - Should probabilistic scalar RUL remain `uncertain` or become `related_predictive_model`?
 - Is uncertainty modeling alone enough to strengthen world-model status when rollout is absent?
-- Verify venue metadata and any official code release independently.
+- Confirm whether an official code release exists.
 
 ## Verification Status
 
