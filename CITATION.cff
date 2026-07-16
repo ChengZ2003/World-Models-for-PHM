@@ -8,5 +8,5 @@ authors:
   - family-names: "TODO"
     given-names: "TODO"
 license: MIT
-repository-code: "TODO"
+repository-code: "https://github.com/ChengZ2003/World-Models-for-PHM"
 abstract: "A survey companion and resource hub for world models in anomaly detection, prognostics, remaining useful life prediction, and PHM."

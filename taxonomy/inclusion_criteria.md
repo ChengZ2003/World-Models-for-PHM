@@ -35,6 +35,75 @@ Use `uncertain` and explain the ambiguity when the paper does not support a defe
 
 > Classification should be based on the actual modeling mechanism, not solely on whether the paper uses the phrase “world model.”
 
+## Mechanism-Based Examples
+
+These abstract examples illustrate classification logic and do not refer to unverified papers.
+
+### Example A — Strict World Model
+
+```text
+Historical observations
+→ state encoder
+→ learned transition model
+→ multi-step future rollout
+→ anomaly risk, RUL, or maintenance decision
+```
+
+This mechanism represents system state, learns state transitions, supports multi-step rollout, and makes rollout central to downstream inference or decision-making.
+
+### Example B — World-Model-Like Dynamics Model
+
+```text
+Historical observations
+→ latent representation
+→ future latent prediction
+→ prediction deviation used for anomaly scoring
+```
+
+This mechanism learns dynamic evolution and uses future prediction centrally, but it may not support planning, counterfactual reasoning, or a complete simulation interface.
+
+### Example C — Related Predictive Model
+
+```text
+Historical sensor sequence
+→ end-to-end neural network
+→ direct scalar RUL prediction
+```
+
+This mechanism can be useful for RUL, but it does not explicitly learn a reusable state transition or rollout. Predicting a future outcome alone does not make a method a world model.
+
+### Example D — Uncertain Case
+
+```text
+Encoder
+→ auxiliary future-prediction loss
+→ main fault classifier
+```
+
+Future prediction may be only an auxiliary objective. Reviewers must determine whether dynamics are central to the method and record both `scope_confidence` and the classification rationale.
+
+## Common Misclassification Risks
+
+- Treating every forecasting model as a world model
+- Treating every generative model as a world model
+- Treating direct RUL regression as rollout
+- Relying only on the authors' terminology
+- Ignoring whether dynamics are central or auxiliary
+- Confusing reconstruction with future simulation
+- Confusing foundation-model pretraining with system-specific dynamics modeling
+
+## Classification Review Process
+
+1. One contributor enters the candidate metadata.
+2. The contributor answers all seven inclusion questions with cited evidence.
+3. The contributor proposes a scope classification.
+4. The contributor writes a mechanism-based classification rationale.
+5. The contributor records scope confidence.
+6. At least one other maintainer or reviewer checks the metadata and rationale before `verified=true` is set.
+7. If disagreement remains, use `world_model_scope=uncertain` and `scope_confidence=low` instead of forcing a category.
+
+> `verified=true` means that the metadata and classification rationale have been manually checked. It does not mean that the paper's claims or experimental results have been independently reproduced.
+
 ## Exclusion and Verification
 
 Exclude work with no substantive connection to PHM or industrial reliability, and do not treat generic temporal prediction as automatically in scope. A record may be collected with `verified=false`, but only verified records appear in generated public tables.

@@ -6,12 +6,11 @@ A survey companion repository for studying how learned system states and tempora
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg)](CONTRIBUTING.md)
-![Last update](https://img.shields.io/badge/last%20update-2026--07--16-blue)
-![Survey status](https://img.shields.io/badge/survey-in%20preparation-lightgrey)
 
-> **Status:** Early-stage repository. The scope, taxonomy, and metadata schema are drafts intended for transparent community review.
+> **Current stage:** Repository foundation, taxonomy development, and initial literature verification.
+> No public benchmark implementation or validated leaderboard is available yet.
 
-<!-- TODO: Replace date- and survey-status badges with automated badges if a stable release workflow is adopted. -->
+<!-- TODO: Add a repository-specific CI badge after the validation workflow is published and confirmed. -->
 
 ## Overview
 
@@ -87,13 +86,15 @@ The detailed taxonomy is maintained in [`taxonomy/`](taxonomy/README.md).
 
 This is more than a paper list. The repository is designed around verified metadata, explicit inclusion criteria, reproducibility status, task and method taxonomies, survey figures and tables, links to related repositories, lightweight protocol definitions, and transparent reporting of uncertainty and disagreement.
 
+## Source of Truth
+
+- **Structured metadata:** `data/papers.csv`, `data/datasets.csv`, `data/methods.csv`, and `data/repositories.csv` are the only sources of truth for structured records.
+- **Generated views:** `papers/generated/` and `resources/generated_related_repositories.md` contain verified-only Markdown generated from CSV. Do not edit their data rows manually.
+- **Handwritten pages:** task and landscape pages define scope, selection principles, inclusion considerations, and survey observations. They link to generated views instead of duplicating records.
+
 ## Paper Index
 
-| Paper | Year | Task | Scope | Representation | Transition | Objective | Dataset | Code | Verified |
-| ----- | ---: | ---- | ----- | -------------- | ---------- | --------- | ------- | ---- | -------- |
-| _No manually verified paper records yet._ | | | | | | | | | |
-
-Real paper records are maintained in [`data/papers.csv`](data/papers.csv). Markdown tables are generated with [`scripts/generate_paper_tables.py`](scripts/generate_paper_tables.py); generated files do not replace manually curated topic pages.
+Real paper records are maintained in [`data/papers.csv`](data/papers.csv), the structured source of truth. The [generated paper index](papers/generated/index.md) contains only manually verified records. Handwritten task pages define scope and inclusion considerations; they do not duplicate paper tables.
 
 ## Related Projects
 
@@ -101,15 +102,15 @@ This repository builds on and complements existing efforts in general world mode
 
 ## Current Status
 
-| Workstream | Status |
-| --- | --- |
-| Repository foundation | Initial public structure prepared |
-| Terminology draft | Draft available for review |
-| Taxonomy draft | Draft available for review |
-| Literature collection | Awaiting manually verified records |
-| Survey outline | Initial outline prepared |
-| Reproduction index | Template and status vocabulary prepared |
-| Benchmark protocol exploration | Draft protocol documents; no completed benchmark |
+| Component | Status | Notes |
+| --- | --- | --- |
+| Repository structure | Available | Initial structure and contribution workflow |
+| Terminology | Draft | Subject to refinement |
+| Inclusion criteria | Draft | Requires validation on real papers |
+| Verified literature database | In progress | Initial manual verification pending |
+| Reproduction index | Planned | No reproduced result claimed |
+| Benchmark protocols | Draft | Documentation only |
+| Benchmark implementation | Not available | Future work |
 
 ## Repository Map
 
@@ -121,6 +122,7 @@ This repository builds on and complements existing efforts in general world mode
 - [`reproduction/`](reproduction/README.md): reproduction reports and status tracking
 - [`benchmark/`](benchmark/README.md): future lightweight protocol and evaluation layer
 - [`docs/ROADMAP.md`](docs/ROADMAP.md): staged project roadmap
+- [`docs/INITIAL_CONTENT_PLAN.md`](docs/INITIAL_CONTENT_PLAN.md): minimum useful-content batches
 
 ## How to Contribute
 
@@ -129,12 +131,15 @@ Contributions may submit a missing paper, correct metadata, discuss a classifica
 ## Validation
 
 ```bash
-python scripts/validate_metadata.py
-python scripts/generate_paper_tables.py
-python scripts/generate_repository_table.py
+python3 scripts/validate_metadata.py
+python3 scripts/generate_paper_tables.py
+python3 scripts/generate_repository_table.py
+git diff
 ```
 
-All scripts use only the Python standard library.
+All scripts use only the Python standard library; the project does not depend on pandas. Some local environments, including macOS, expose Python as `python3`, while GitHub Actions uses `python` after setting up Python 3.11. Both execute the same scripts.
+
+Every pull request automatically runs Python syntax compilation, metadata validation, table generation, and `git diff --exit-code`. After changing `data/*.csv`, regenerate the Markdown outputs, inspect the diff, and commit the CSV and generated files together.
 
 ## Citation
 
