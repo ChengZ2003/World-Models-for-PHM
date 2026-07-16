@@ -6,3 +6,6 @@ This directory aligns the repository taxonomy and structured data with the plann
 - [`terminology.md`](terminology.md): controlled terminology
 - [`research_questions.md`](research_questions.md): research questions
 - [`figure_plan.md`](figure_plan.md): planned visual evidence
+- [`search_strategy.md`](search_strategy.md): draft searchable, auditable dual-review methodology
+
+The search strategy is a protocol draft. No search database, result count, or screening round is treated as completed unless it is recorded and verified in the structured data.

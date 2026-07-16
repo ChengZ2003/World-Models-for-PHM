@@ -8,6 +8,12 @@
 - [ ] Scope reviewed
 - [ ] At least one manually reviewed taxonomy example
 - [ ] Generated files match CSV
+- [ ] Generated-file CI detects tracked and untracked changes
+- [ ] Controlled vocabularies and frozen CSV headers are reviewed
+- [ ] Search strategy is visibly labeled Draft until executed
+- [ ] Search runs and screening decisions are auditable
+- [ ] Every verified paper has two different approved reviewers
+- [ ] Approved reviewers agree on scope and cite evidence locations
 - [ ] No duplicated manually maintained paper tables
 - [ ] No broken badges
 - [ ] Current Stage is visible
@@ -17,7 +23,7 @@
 - [ ] No private information
 - [ ] No local file paths
 - [ ] No fake author or contact information
-- [ ] Author placeholders reviewed and replaced or explicitly approved
+- [ ] Pre-release citation author placeholder reviewed and replaced or explicitly approved
 - [ ] Maintainer conduct-reporting contact confirmed
 - [ ] `CITATION.cff` placeholders reviewed
 - [ ] License included
@@ -26,6 +32,7 @@
 - [ ] GitHub Actions passes
 - [ ] Relative links pass
 - [ ] Source-of-truth policy is documented
+- [ ] `verified=true` semantics do not imply experimental reproduction
 - [ ] TODOs reviewed
 - [ ] Example rows clearly labeled
 - [ ] Example records remain unverified

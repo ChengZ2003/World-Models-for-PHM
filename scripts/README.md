@@ -11,12 +11,18 @@ git diff
 
 Standard workflow:
 
-1. Edit the relevant CSV under `data/`.
-2. Run metadata validation.
-3. Regenerate the Markdown views.
-4. Inspect `git diff` manually.
-5. Commit the CSV and generated files together.
+1. Record the search run and dual screening decisions.
+2. Add candidate metadata with `verified=false`.
+3. Add two independent classification reviews and resolve scope consensus.
+4. Set `verified=true` only after the validator's review requirements are met.
+5. Run metadata validation and regenerate Markdown views.
+6. Inspect `git diff` and `git status --short` manually.
+7. Commit structured sources and generated files together.
 
-Validation returns a nonzero exit code for schema or record errors. Generators include only `verified=true` records, produce deterministic output, and refuse to overwrite a Markdown file that lacks the generated marker.
+Validation loads `data/vocabularies.json`, checks seven CSV schemas, validates controlled and semicolon-delimited values, checks review/search foreign keys, and enforces two-reviewer scope consensus. It returns a nonzero exit code for errors and reports a per-file summary.
+
+The paper generator supports multiple semicolon-delimited tasks. A paper appears in each relevant task page but is counted once by paper ID in the index. Generators include only `verified=true` records, produce deterministic output, and refuse to overwrite a Markdown file that lacks the generated marker.
 
 Some local systems expose Python only as `python3`. GitHub Actions uses `python` after configuring Python 3.11. Both run the same standard-library scripts, and the project does not depend on pandas.
+
+CI checks both `git diff --exit-code` and an empty `git status --porcelain`, so newly generated untracked files cannot bypass consistency validation.

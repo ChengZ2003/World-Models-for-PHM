@@ -21,7 +21,13 @@ This roadmap separates completed repository foundations from planned research an
 
 ## Phase 1 — Verified Literature Collection
 
-Manually collect candidates, separate strict world models from related predictive models, and verify official paper/code links, tasks, datasets, objectives, transitions, uncertainty, and classification confidence.
+### Phase 1A — Schema and Methodology Foundation
+
+Freeze controlled vocabularies and CSV schemas before literature entry. Define auditable search runs, dual screening, independent seven-question reviews, scope consensus, cross-file validation, and multi-task generation. The methodology documents describe intended procedures and do not claim that searches have already been executed.
+
+### Phase 1B — Initial Verified Collection
+
+Execute reviewed searches, record search provenance, screen candidates independently, separate strict world models from related predictive models, and verify official paper/code links, tasks, datasets, objectives, transitions, uncertainty, evidence locations, and classification confidence.
 
 Suggested review milestones are 20, 40, and 60 verified papers, followed by a survey-aligned release. These are coordination markers, not quality targets. **Correctness before coverage.** At minimum verify title, year, venue, official paper URL, code URL, task, dataset, modeling mechanism, and scope classification.
 
@@ -91,7 +97,10 @@ Long-term directions include shared latent dynamics, joint anomaly and RUL model
 - [x] Establish repository structure
 - [x] Draft operational definition and inclusion criteria
 - [x] Add metadata validation and generation tooling
+- [x] Define controlled vocabularies and dual-review schemas
+- [x] Draft the auditable survey search and screening method
 - [ ] Approve maintainer and citation placeholders
+- [ ] Execute and verify the first search run
 - [ ] Add first manually verified literature records
 - [ ] Review taxonomy with domain experts
 - [ ] Publish survey figures from verified data

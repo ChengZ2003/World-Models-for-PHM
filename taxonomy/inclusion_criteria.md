@@ -94,16 +94,16 @@ Future prediction may be only an auxiliary objective. Reviewers must determine w
 
 ## Classification Review Process
 
-1. One contributor enters the candidate metadata.
-2. The contributor answers all seven inclusion questions with cited evidence.
-3. The contributor proposes a scope classification.
-4. The contributor writes a mechanism-based classification rationale.
-5. The contributor records scope confidence.
-6. At least one other maintainer or reviewer checks the metadata and rationale before `verified=true` is set.
-7. If disagreement remains, use `world_model_scope=uncertain` and `scope_confidence=low` instead of forcing a category.
+1. Record the search run and dual-screening decision before classification.
+2. One contributor enters candidate metadata with `verified=false`.
+3. Two different reviewers independently answer all seven questions in `data/paper_reviews.csv` and cite evidence locations.
+4. Each reviewer proposes a scope, writes a mechanism-based rationale, records confidence, and marks approval only after checking the full-text evidence.
+5. The two approved reviews must agree on `proposed_scope`.
+6. The paper's `world_model_scope` must match that consensus before `verified=true` is set.
+7. If disagreement remains, retain the record as unverified or reach an explicit `uncertain`/low-confidence consensus instead of forcing a category.
 
 > `verified=true` means that the metadata and classification rationale have been manually checked. It does not mean that the paper's claims or experimental results have been independently reproduced.
 
 ## Exclusion and Verification
 
-Exclude work with no substantive connection to PHM or industrial reliability, and do not treat generic temporal prediction as automatically in scope. A record may be collected with `verified=false`, but only verified records appear in generated public tables.
+Exclude work with no substantive connection to PHM or industrial reliability, and do not treat generic temporal prediction as automatically in scope. A record may be collected with `verified=false`, but only records backed by two approved, scope-consistent reviews appear in generated public tables.

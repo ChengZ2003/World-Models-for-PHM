@@ -14,7 +14,7 @@ Harassment, discriminatory language, personal attacks, deliberate misinformation
 
 ## Enforcement
 
-Report conduct concerns privately to the project maintainers. Contact details are `TODO` until maintainers approve a public reporting address. Maintainers may remove content or restrict participation when necessary to protect the community.
+The project does not yet have a confirmed private conduct-reporting channel. Maintainer contact is pending. Until a channel is published, do not send sensitive reports through public issues. This limitation must be resolved before the enforcement process is described as complete. Once contact is confirmed, maintainers may remove content or restrict participation when necessary to protect the community.
 
 ## Attribution
 

@@ -11,6 +11,10 @@ All notable changes will be documented here.
 - Hardened metadata validation and deterministic generation
 - Added mechanism-based classification examples and a two-person review process
 - Added a minimum useful-content plan and expanded public-release checks
+- Froze controlled vocabularies and expanded the paper schema for multi-task classification evidence
+- Added search-run, dual-screening, and independent paper-review provenance schemas
+- Enforced two-reviewer scope consensus before paper verification
+- Added a draft survey search strategy and multi-task paper-table generation
 
 ## [0.1.0] - 2026-07-16
 

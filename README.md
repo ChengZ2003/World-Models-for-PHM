@@ -6,11 +6,10 @@ A survey companion repository for studying how learned system states and tempora
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg)](CONTRIBUTING.md)
+[![Validate Repository](https://github.com/ChengZ2003/World-Models-for-PHM/actions/workflows/validate.yml/badge.svg)](https://github.com/ChengZ2003/World-Models-for-PHM/actions/workflows/validate.yml)
 
 > **Current stage:** Repository foundation, taxonomy development, and initial literature verification.
 > No public benchmark implementation or validated leaderboard is available yet.
-
-<!-- TODO: Add a repository-specific CI badge after the validation workflow is published and confirmed. -->
 
 ## Overview
 
@@ -88,7 +87,9 @@ This is more than a paper list. The repository is designed around verified metad
 
 ## Source of Truth
 
-- **Structured metadata:** `data/papers.csv`, `data/datasets.csv`, `data/methods.csv`, and `data/repositories.csv` are the only sources of truth for structured records.
+- **Controlled values:** `data/vocabularies.json` defines the frozen vocabulary used by structured fields.
+- **Entity metadata:** `data/papers.csv`, `data/datasets.csv`, `data/methods.csv`, and `data/repositories.csv` are the sources of truth for literature and resource entities.
+- **Review provenance:** `data/paper_reviews.csv`, `data/search_runs.csv`, and `data/screening.csv` are the sources of truth for classification reviews, searches, and screening decisions.
 - **Generated views:** `papers/generated/` and `resources/generated_related_repositories.md` contain verified-only Markdown generated from CSV. Do not edit their data rows manually.
 - **Handwritten pages:** task and landscape pages define scope, selection principles, inclusion considerations, and survey observations. They link to generated views instead of duplicating records.
 
@@ -107,6 +108,7 @@ This repository builds on and complements existing efforts in general world mode
 | Repository structure | Available | Initial structure and contribution workflow |
 | Terminology | Draft | Subject to refinement |
 | Inclusion criteria | Draft | Requires validation on real papers |
+| Search and screening methodology | Draft | Protocol defined; no completed search claimed |
 | Verified literature database | In progress | Initial manual verification pending |
 | Reproduction index | Planned | No reproduced result claimed |
 | Benchmark protocols | Draft | Documentation only |
@@ -118,7 +120,7 @@ This repository builds on and complements existing efforts in general world mode
 - [`taxonomy/`](taxonomy/README.md): definitions, inclusion criteria, and method dimensions
 - [`resources/`](resources/README.md): datasets, metrics, projects, venues, and related repositories
 - [`data/`](data/README.md): machine-readable metadata
-- [`survey/`](survey/README.md): outline, research questions, terminology, and figure plan
+- [`survey/`](survey/README.md): draft search method, outline, research questions, terminology, and figure plan
 - [`reproduction/`](reproduction/README.md): reproduction reports and status tracking
 - [`benchmark/`](benchmark/README.md): future lightweight protocol and evaluation layer
 - [`docs/ROADMAP.md`](docs/ROADMAP.md): staged project roadmap
@@ -139,7 +141,19 @@ git diff
 
 All scripts use only the Python standard library; the project does not depend on pandas. Some local environments, including macOS, expose Python as `python3`, while GitHub Actions uses `python` after setting up Python 3.11. Both execute the same scripts.
 
-Every pull request automatically runs Python syntax compilation, metadata validation, table generation, and `git diff --exit-code`. After changing `data/*.csv`, regenerate the Markdown outputs, inspect the diff, and commit the CSV and generated files together.
+Every pull request automatically runs Python syntax compilation, vocabulary and metadata validation, table generation, tracked-file diff checks, and untracked-file checks. After changing structured data, regenerate the Markdown outputs, inspect the diff, and commit the source and generated files together.
+
+## Survey Review Workflow
+
+1. Execute a reviewed search query and record the search run.
+2. Perform dual title/abstract and full-text screening.
+3. Add candidate metadata with `verified=false`.
+4. Have two different reviewers answer the seven inclusion questions independently.
+5. Resolve scope disagreement and record consensus evidence.
+6. Set `verified=true` only after two approved reviews agree with the paper classification.
+7. Regenerate Markdown and let CI check source/generated consistency.
+
+See the draft [search strategy](survey/search_strategy.md) and [inclusion criteria](taxonomy/inclusion_criteria.md). Verification covers metadata and classification review; it does not imply independent reproduction of experimental results.
 
 ## Citation
 

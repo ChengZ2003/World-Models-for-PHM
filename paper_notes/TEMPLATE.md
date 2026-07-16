@@ -7,7 +7,7 @@
 - Venue:
 - Paper:
 - Code:
-- Task:
+- Tasks:
 - Dataset:
 - World Model Scope:
 - Scope Confidence:
@@ -21,6 +21,8 @@
 ## Our Classification
 
 ## Classification Rationale
+
+## Evidence Locations
 
 ## System State Representation
 
@@ -53,6 +55,8 @@
 ## Verification Status
 
 - Metadata verified:
+- Two approved classification reviews:
+- Scope consensus verified:
 - Code verified:
 - Results reproduced:
 - Last checked:

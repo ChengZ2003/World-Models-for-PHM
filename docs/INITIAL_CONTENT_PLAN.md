@@ -4,6 +4,24 @@
 
 Move the repository from a structure-only foundation to a minimum useful public release through small, manually reviewed batches. Correctness remains more important than count.
 
+## Batch 0 — Search and Screening Provenance
+
+Before seed-paper verification:
+
+1. Review the draft search strategy and finalize the initial databases, date range, and language policy.
+2. Execute each query and record it in `data/search_runs.csv`.
+3. Deduplicate exports without losing search-run provenance.
+4. Complete independent title/abstract and full-text decisions in `data/screening.csv`.
+5. Retain unresolved disagreements explicitly.
+
+### Completion Checklist
+
+- [ ] Initial database list and query blocks are approved
+- [ ] Every executed query has a search-run record
+- [ ] Search dates, result counts, and export locations are recorded
+- [ ] Two reviewers complete screening before consensus
+- [ ] No draft search is described as executed
+
 ## Batch A — Related Repository Landscape
 
 Target 6–10 verified repositories spanning:
@@ -33,7 +51,10 @@ Target 10–20 verified papers without attempting exhaustive coverage. Select re
 - [ ] Each paper answers all seven inclusion questions
 - [ ] Official paper and code sources are checked where available
 - [ ] Classification rationale and confidence are recorded
-- [ ] A second reviewer checks each record before `verified=true`
+- [ ] Two different reviewers independently complete all seven questions
+- [ ] Approved reviews agree on scope and cite evidence locations
+- [ ] The paper scope matches review consensus before `verified=true`
+- [ ] Multiple tasks use semicolon-delimited controlled values
 - [ ] Generated task pages match `data/papers.csv`
 
 ## Batch C — Seed Datasets
@@ -73,7 +94,8 @@ Use the seed papers to test whether the taxonomy can be applied consistently, wh
 ## Overall Completion Criteria
 
 - [ ] Recommended content targets have been reviewed, or deviations are explained
-- [ ] All verified records have second-review evidence
+- [ ] All verified papers have two approved, scope-consistent review records
+- [ ] Search and screening provenance is complete for seed papers
 - [ ] Validation and generation scripts pass
 - [ ] Generated files match structured sources
 - [ ] README status and content counts reflect the actual repository

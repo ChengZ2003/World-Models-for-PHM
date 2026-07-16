@@ -35,4 +35,6 @@ jobs:
         run: python scripts/generate_repository_table.py
 
       - name: Check generated-file consistency
-        run: git diff --exit-code
+        run: |
+          git diff --exit-code
+          test -z "$(git status --porcelain)"
