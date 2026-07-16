@@ -1,0 +1,36 @@
+name: Metadata correction
+description: Propose a sourced correction to a structured record
+title: "[Metadata]: "
+labels: ["metadata"]
+body:
+  - type: input
+    id: record_id
+    attributes:
+      label: Record ID
+    validations:
+      required: true
+  - type: textarea
+    id: current_value
+    attributes:
+      label: Current value
+    validations:
+      required: true
+  - type: textarea
+    id: proposed_value
+    attributes:
+      label: Proposed value
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: Supporting source
+      description: Prefer an official paper, proceedings, dataset, or repository page.
+    validations:
+      required: true
+  - type: textarea
+    id: reason
+    attributes:
+      label: Reason
+    validations:
+      required: true

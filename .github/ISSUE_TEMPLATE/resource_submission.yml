@@ -1,0 +1,36 @@
+name: Resource submission
+description: Propose a dataset, metric, project, tutorial, or other resource
+title: "[Resource]: "
+labels: ["resource-submission"]
+body:
+  - type: dropdown
+    id: type
+    attributes:
+      label: Resource type
+      options: [Dataset, Metric, Open-source project, Survey or tutorial, Venue, Other]
+    validations: {required: true}
+  - type: input
+    id: name
+    attributes: {label: Name}
+    validations: {required: true}
+  - type: input
+    id: url
+    attributes: {label: URL}
+    validations: {required: true}
+  - type: textarea
+    id: description
+    attributes: {label: Description}
+    validations: {required: true}
+  - type: input
+    id: license
+    attributes: {label: License, description: Use TODO if the license has not been verified.}
+  - type: textarea
+    id: relevance
+    attributes: {label: Relationship to this repository}
+    validations: {required: true}
+  - type: dropdown
+    id: verified
+    attributes:
+      label: Verification status
+      options: [Verified against an official source, Partially verified, Not yet verified]
+    validations: {required: true}

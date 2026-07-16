@@ -1,0 +1,63 @@
+name: Paper submission
+description: Propose a verified paper for inclusion
+title: "[Paper]: "
+labels: ["paper-submission"]
+body:
+  - type: input
+    id: title
+    attributes: {label: Paper title}
+    validations: {required: true}
+  - type: input
+    id: authors
+    attributes: {label: Authors}
+    validations: {required: true}
+  - type: input
+    id: year
+    attributes: {label: Year}
+    validations: {required: true}
+  - type: input
+    id: venue
+    attributes: {label: Venue}
+    validations: {required: true}
+  - type: input
+    id: paper_url
+    attributes: {label: Paper URL}
+    validations: {required: true}
+  - type: input
+    id: code_url
+    attributes: {label: Official code URL, description: Use TODO if no verified URL is available.}
+  - type: dropdown
+    id: task
+    attributes:
+      label: Task
+      options: [Anomaly detection, Anomaly prediction / early warning, Fault diagnosis, Fault prognosis, Health assessment, RUL prediction, Predictive maintenance, Maintenance decision-making, Other]
+    validations: {required: true}
+  - type: textarea
+    id: dataset
+    attributes: {label: Dataset or datasets}
+    validations: {required: true}
+  - type: textarea
+    id: rationale
+    attributes: {label: Classification rationale}
+    validations: {required: true}
+  - type: dropdown
+    id: category
+    attributes:
+      label: Proposed World Model category
+      options: [Strict World Model, World-Model-Like Dynamics Model, Related Predictive Model]
+    validations: {required: true}
+  - type: textarea
+    id: dynamics
+    attributes: {label: Dynamics mechanism}
+    validations: {required: true}
+  - type: textarea
+    id: rollout
+    attributes: {label: Rollout capability}
+    validations: {required: true}
+  - type: checkboxes
+    id: verified
+    attributes:
+      label: Metadata verification
+      options:
+        - label: I verified the title, authors, year, venue, and URLs against reliable sources.
+          required: true

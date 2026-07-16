@@ -1,0 +1,21 @@
+# Public Release Checklist
+
+- [ ] Repository name checked
+- [ ] Description checked
+- [ ] README reviewed
+- [ ] Scope reviewed
+- [ ] No fabricated papers
+- [ ] No fabricated repositories
+- [ ] No private information
+- [ ] No local file paths
+- [ ] Author names reviewed
+- [ ] `CITATION.cff` placeholders reviewed
+- [ ] License included
+- [ ] Contribution guide included
+- [ ] Scripts pass
+- [ ] Relative links pass
+- [ ] TODOs reviewed
+- [ ] Example rows clearly labeled
+- [ ] No claim of completed benchmark
+- [ ] No claim of novelty without evidence
+- [ ] Repository visibility decision confirmed

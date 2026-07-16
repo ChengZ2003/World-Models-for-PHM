@@ -1,0 +1,12 @@
+cff-version: 1.2.0
+message: "If you use this repository, please cite the associated survey after publication."
+title: "World Models for PHM"
+type: software
+version: 0.1.0
+date-released: 2026-07-16
+authors:
+  - family-names: "TODO"
+    given-names: "TODO"
+license: MIT
+repository-code: "TODO"
+abstract: "A survey companion and resource hub for world models in anomaly detection, prognostics, remaining useful life prediction, and PHM."

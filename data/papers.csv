@@ -1,0 +1,2 @@
+id,title,year,authors,venue,paper_url,code_url,task,world_model_scope,scope_confidence,representation_space,transition_type,learning_objective,rollout_capability,action_conditioned,physics_informed,uncertainty_modeling,datasets,metrics,application_domain,open_source,notes,verified,last_checked
+example-paper,EXAMPLE PAPER TITLE,2026,EXAMPLE AUTHORS,EXAMPLE VENUE,TODO,TODO,anomaly_prediction,world_model_like,low,latent,probabilistic,multi_step_prediction,unknown,false,false,unknown,TODO,TODO,industrial,unknown,Replace with a manually verified paper,false,TODO
