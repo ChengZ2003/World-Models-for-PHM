@@ -18,7 +18,7 @@ Do not edit it manually.
 Update the corresponding CSV file and rerun the generation script.
 -->"""
 COLUMNS = [
-    ("title", "Paper"), ("year", "Year"), ("task", "Task"),
+    ("title", "Paper"), ("year", "Year"), ("tasks", "Tasks"),
     ("world_model_scope", "Scope"), ("representation_space", "Representation"),
     ("transition_type", "Transition"), ("learning_objective", "Objective"),
     ("datasets", "Dataset"), ("code_url", "Code"), ("verified", "Verified"),
@@ -71,8 +71,15 @@ def render_table(title: str, rows: list[dict[str, str]]) -> str:
     return "\n".join(lines)
 
 
-def render_index(grouped: dict[str, list[dict[str, str]]]) -> str:
-    paper_count = sum(len(rows) for rows in grouped.values())
+def split_tasks(value: str) -> list[str]:
+    """Return stable, unique task values from a semicolon-delimited field."""
+    return sorted(
+        {task.strip() for task in value.split(";") if task.strip()},
+        key=lambda task: (task.casefold(), task),
+    )
+
+
+def render_index(grouped: dict[str, list[dict[str, str]]], paper_count: int) -> str:
     task_names = sorted(grouped, key=lambda value: (value.casefold(), value))
     lines = [
         MARKER,
@@ -124,7 +131,8 @@ def main() -> int:
         args.output_dir.mkdir(parents=True, exist_ok=True)
         grouped: dict[str, list[dict[str, str]]] = defaultdict(list)
         for row in rows:
-            grouped[row.get("task", "uncategorized")].append(row)
+            for task in split_tasks(row.get("tasks", "")):
+                grouped[task].append(row)
         expected_files = {args.output_dir / "index.md"}
         expected_files.update(args.output_dir / f"{slug(task)}.md" for task in grouped)
         for path in sorted(args.output_dir.glob("*.md")):
@@ -132,7 +140,8 @@ def main() -> int:
                 if MARKER not in path.read_text(encoding="utf-8"):
                     raise RuntimeError(f"refusing to remove manually maintained file: {path}")
                 path.unlink()
-        safe_write(args.output_dir / "index.md", render_index(grouped))
+        paper_count = len({row["id"] for row in rows})
+        safe_write(args.output_dir / "index.md", render_index(grouped, paper_count))
         for task in sorted(grouped, key=lambda value: (value.casefold(), value)):
             task_rows = grouped[task]
             safe_write(
@@ -142,7 +151,7 @@ def main() -> int:
     except (OSError, csv.Error, KeyError, ValueError, RuntimeError) as exc:
         print(f"Paper table generation failed: {exc}", file=sys.stderr)
         return 1
-    print(f"Generated paper tables for {len(rows)} verified record(s) across {len(grouped)} task(s) in {args.output_dir}.")
+    print(f"Generated paper tables for {len({row['id'] for row in rows})} verified paper(s) across {len(grouped)} task(s) in {args.output_dir}.")
     return 0
 
 

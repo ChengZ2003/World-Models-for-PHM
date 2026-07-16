@@ -1,0 +1,117 @@
+{
+  "tasks": [
+    "anomaly_detection",
+    "anomaly_prediction",
+    "fault_diagnosis",
+    "health_assessment",
+    "fault_prognosis",
+    "rul_prediction",
+    "maintenance_decision"
+  ],
+  "world_model_scopes": [
+    "strict_world_model",
+    "world_model_like",
+    "related_predictive_model",
+    "uncertain"
+  ],
+  "scope_confidences": [
+    "high",
+    "medium",
+    "low",
+    "unknown"
+  ],
+  "representation_spaces": [
+    "observation_space",
+    "continuous_latent",
+    "discrete_latent",
+    "hybrid_physical_latent",
+    "graph_structured",
+    "multimodal",
+    "unknown"
+  ],
+  "transition_types": [
+    "deterministic",
+    "probabilistic",
+    "stochastic_latent_variable",
+    "state_space",
+    "autoregressive",
+    "non_autoregressive",
+    "action_conditioned",
+    "physics_informed",
+    "retrieval_augmented",
+    "continuous_time",
+    "unknown"
+  ],
+  "learning_objectives": [
+    "reconstruction",
+    "one_step_prediction",
+    "multi_step_prediction",
+    "latent_prediction",
+    "contrastive_prediction",
+    "masked_modeling",
+    "generative_likelihood",
+    "diffusion",
+    "uncertainty_estimation",
+    "multi_task_learning",
+    "unknown"
+  ],
+  "rollout_capabilities": [
+    "none",
+    "one_step",
+    "multi_step",
+    "simulation",
+    "planning",
+    "counterfactual",
+    "unknown"
+  ],
+  "uncertainty_types": [
+    "none",
+    "aleatoric",
+    "epistemic",
+    "predictive_distribution",
+    "ensemble",
+    "latent_stochasticity",
+    "quantile",
+    "conformal",
+    "diffusion_sampling",
+    "unknown"
+  ],
+  "application_domains": [
+    "manufacturing",
+    "rotating_machinery",
+    "turbomachinery",
+    "batteries",
+    "energy_systems",
+    "transportation",
+    "aerospace",
+    "process_industry",
+    "buildings",
+    "cyber_physical_systems",
+    "industrial_general",
+    "unknown"
+  ],
+  "repository_categories": [
+    "general_world_model_collections",
+    "phm_frameworks_benchmarks",
+    "time_series_anomaly_detection_benchmarks",
+    "rul_prognostics_resources",
+    "predictive_maintenance_collections",
+    "time_series_foundation_model_resources"
+  ],
+  "screening_decisions": [
+    "include",
+    "exclude",
+    "uncertain",
+    "pending"
+  ],
+  "screening_stages": [
+    "title_abstract",
+    "full_text"
+  ],
+  "review_answers": [
+    "yes",
+    "partial",
+    "no",
+    "unknown"
+  ]
+}

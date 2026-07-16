@@ -16,26 +16,32 @@ Thank you for helping build a careful, verifiable resource on world models for P
 
 ### Adding Papers
 
-1. Apply the seven questions in [`taxonomy/inclusion_criteria.md`](taxonomy/inclusion_criteria.md).
-2. Add a unique record to [`data/papers.csv`](data/papers.csv).
-3. Verify the title, authors, year, venue, official paper URL, code URL, task, datasets, mechanism, and scope classification.
-4. Explain borderline decisions in `notes` or a paper note based on [`paper_notes/TEMPLATE.md`](paper_notes/TEMPLATE.md).
+1. Record an executed query in [`data/search_runs.csv`](data/search_runs.csv).
+2. Complete dual screening in [`data/screening.csv`](data/screening.csv).
+3. Add a unique candidate to [`data/papers.csv`](data/papers.csv) with `verified=false`.
+4. Use semicolons for multiple tasks and controlled values from [`data/vocabularies.json`](data/vocabularies.json).
+5. Verify title, authors, year, venue, official URLs, tasks, datasets, mechanism, and classification evidence.
+6. Use a paper note based on [`paper_notes/TEMPLATE.md`](paper_notes/TEMPLATE.md) when extended analysis is useful.
 
 ### Classification Review Process
 
-1. One contributor enters the metadata.
-2. The contributor answers all seven inclusion questions.
-3. The contributor proposes a scope classification.
-4. The contributor writes a mechanism-based classification rationale.
-5. The contributor records the scope confidence.
-6. At least one other maintainer or reviewer checks the metadata and rationale before `verified=true` is set.
-7. When disagreement remains, use `world_model_scope=uncertain` and `scope_confidence=low`; do not force a category through argument alone.
+1. One contributor enters candidate metadata with `verified=false`.
+2. Two different reviewers independently add rows to [`data/paper_reviews.csv`](data/paper_reviews.csv).
+3. Each reviewer answers all seven inclusion questions, proposes a scope, records confidence, writes a rationale, and identifies evidence locations.
+4. `approved=true` means that the individual review is complete and formally valid; it does not mean that reviewers agree.
+5. Preserve every original proposed scope and confidence, including disagreement and additional third-reviewer evidence.
+6. Record the final scope, confidence, consensus date, and resolution rationale in `papers.csv`.
+7. Set `verified=true` only when at least two different approved reviews and complete final-consensus metadata exist. Do not overwrite reviews to manufacture agreement.
 
 > `verified=true` means that the metadata and classification rationale have been manually checked. It does not mean that the paper's claims or experimental results have been independently reproduced.
 
 ### Correcting Metadata or Classification
 
 Identify the record and old/new values, cite supporting sources, and explain any proposed scope change. Classification changes should address state, transition, rollout, downstream use, and centrality of dynamics.
+
+### Recording Screening Decisions
+
+Use a unique `screening_id` for every row and at most one row per `(candidate_id, stage)`. A candidate may have separate `title_abstract` and `full_text` records. Two completed reviewers must be different people; non-pending consensus requires both non-pending decisions, and exclusion requires a reason.
 
 ### Adding Resources
 
@@ -57,11 +63,11 @@ python3 scripts/generate_repository_table.py
 git diff
 ```
 
-The four files under `data/` are the structured sources of truth. After editing a CSV, validate it, regenerate Markdown, inspect the diff manually, and submit both the CSV and generated outputs. Do not manually edit data rows in `papers/generated/` or `resources/generated_related_repositories.md`.
+The vocabulary, entity CSVs, and review-provenance CSVs under `data/` are the structured sources of truth. After editing them, validate, regenerate Markdown, inspect the diff and status manually, and submit source and generated outputs together. Do not manually edit data rows in `papers/generated/` or `resources/generated_related_repositories.md`.
 
 On macOS and some local systems, use `python3`. GitHub Actions configures Python 3.11 and invokes the same scripts with `python`. No pandas or other third-party package is required.
 
-Every pull request automatically checks script syntax, metadata, and generated-file consistency. A pull request fails when regeneration changes a committed generated file.
+Every pull request automatically checks script syntax, vocabularies, metadata, review consensus, and generated-file consistency. A pull request fails when regeneration changes a tracked file or creates an untracked file.
 
 ## Pull Request Checklist
 
@@ -69,10 +75,13 @@ Every pull request automatically checks script syntax, metadata, and generated-f
 - [ ] No citation, link, or result is fabricated.
 - [ ] Unresolved values are marked `TODO` and unverified.
 - [ ] Classification rationale is documented where relevant.
+- [ ] Search and screening provenance is recorded where relevant.
+- [ ] Controlled values and semicolon-delimited multi-value fields follow `vocabularies.json`.
 - [ ] CSV is treated as the source of truth.
 - [ ] Validation scripts pass.
 - [ ] Generated files were regenerated and included when structured data changed.
 - [ ] I made no manual data edits to generated files.
-- [ ] `verified=true` was set only after manual checking by another reviewer.
+- [ ] `verified=true` was set only after two different approved reviews and complete final-consensus metadata.
+- [ ] Independent reviewer judgments were preserved rather than rewritten to match consensus.
 - [ ] Reproduction claims disclose deviations and failures.
 - [ ] I made no claim of successful reproduction without a reproduction report.

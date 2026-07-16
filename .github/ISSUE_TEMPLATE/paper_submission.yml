@@ -27,10 +27,11 @@ body:
     id: code_url
     attributes: {label: Official code URL, description: Use TODO if no verified URL is available.}
   - type: dropdown
-    id: task
+    id: tasks
     attributes:
-      label: Task
-      options: [Anomaly detection, Anomaly prediction / early warning, Fault diagnosis, Fault prognosis, Health assessment, RUL prediction, Predictive maintenance, Maintenance decision-making, Other]
+      label: Tasks
+      multiple: true
+      options: [Anomaly detection, Anomaly prediction / early warning, Fault diagnosis, Health assessment, Fault prognosis, RUL prediction, Maintenance decision-making]
     validations: {required: true}
   - type: textarea
     id: dataset

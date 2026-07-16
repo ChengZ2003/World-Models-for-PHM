@@ -8,6 +8,17 @@
 - [ ] Scope reviewed
 - [ ] At least one manually reviewed taxonomy example
 - [ ] Generated files match CSV
+- [ ] Generated-file CI detects tracked and untracked changes
+- [ ] Phase 1A candidate schema and candidate controlled vocabularies are clearly labeled
+- [ ] Candidate schema is validated with 6–8 pilot papers before formal freeze
+- [ ] Search strategy is visibly labeled Draft until executed
+- [ ] Search runs and screening decisions are auditable
+- [ ] Title/abstract and full-text screening use separate stage records
+- [ ] Completed screening consensus has two different reviewers and complete decisions
+- [ ] Screening exclusions include reasons
+- [ ] Every verified paper has two different approved reviewers
+- [ ] Independent reviewer judgments are preserved with evidence locations
+- [ ] Final paper consensus is documented separately from reviewer judgments
 - [ ] No duplicated manually maintained paper tables
 - [ ] No broken badges
 - [ ] Current Stage is visible
@@ -17,7 +28,7 @@
 - [ ] No private information
 - [ ] No local file paths
 - [ ] No fake author or contact information
-- [ ] Author placeholders reviewed and replaced or explicitly approved
+- [ ] Pre-release citation author placeholder reviewed and replaced or explicitly approved
 - [ ] Maintainer conduct-reporting contact confirmed
 - [ ] `CITATION.cff` placeholders reviewed
 - [ ] License included
@@ -26,6 +37,7 @@
 - [ ] GitHub Actions passes
 - [ ] Relative links pass
 - [ ] Source-of-truth policy is documented
+- [ ] `verified=true` semantics do not imply experimental reproduction
 - [ ] TODOs reviewed
 - [ ] Example rows clearly labeled
 - [ ] Example records remain unverified

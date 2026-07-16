@@ -1,12 +1,10 @@
 cff-version: 1.2.0
-message: "If you use this repository, please cite the associated survey after publication."
+message: "Pre-release metadata: if you use this repository, please cite the associated survey after publication."
 title: "World Models for PHM"
 type: software
-version: 0.1.0
-date-released: 2026-07-16
+version: "0.1.0-pre"
 authors:
-  - family-names: "TODO"
-    given-names: "TODO"
+  - name: "Maintainer identity pending confirmation"
 license: MIT
 repository-code: "https://github.com/ChengZ2003/World-Models-for-PHM"
 abstract: "A survey companion and resource hub for world models in anomaly detection, prognostics, remaining useful life prediction, and PHM."
