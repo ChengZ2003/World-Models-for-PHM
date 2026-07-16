@@ -477,6 +477,17 @@ class MetadataValidator:
             if len(reviewers) < 2:
                 self.error("papers.csv", line, "verified paper requires approved reviews from at least two different reviewers")
                 continue
+            final_pair = (paper["world_model_scope"], paper["scope_confidence"])
+            review_pairs = {
+                (review["proposed_scope"], review["scope_confidence"])
+                for review in reviews
+            }
+            if final_pair not in review_pairs:
+                self.error(
+                    "papers.csv",
+                    line,
+                    "verified paper final world_model_scope/scope_confidence pair must appear in at least one approved review",
+                )
             scopes = {review["proposed_scope"] for review in reviews}
             confidences = {review["scope_confidence"] for review in reviews}
             if len(scopes) > 1 or len(confidences) > 1:

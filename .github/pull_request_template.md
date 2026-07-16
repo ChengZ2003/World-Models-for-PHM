@@ -20,7 +20,7 @@ If taxonomy metadata changes, explain the decision against the repository criter
 - [ ] I included generated-file changes in this pull request.
 - [ ] I did not manually edit data rows in generated files.
 - [ ] I included a mechanism-based classification rationale where relevant.
-- [ ] I set `verified=true` only after two different approved reviewers reached scope consensus.
+- [ ] I set `verified=true` only after two independent reviews from different reviewers were approved and the final-consensus metadata was completed.
 - [ ] I made no claim of successful reproduction without a reproduction report.
 - [ ] I checked affected Markdown links.
 - [ ] I documented unresolved information as `TODO`.
