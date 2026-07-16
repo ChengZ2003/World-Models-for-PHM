@@ -17,7 +17,7 @@
 
 ## Claimed World Model Definition
 
-The authors do not use the term “world model.” They propose an ensemble of LSTM predictors that separates aleatoric and epistemic components of predictive RUL uncertainty. The PHM Society DOI metadata and the arXiv PDF use the spelling `Abhishek Srinivasan`; the review-suggested `Ahbishek` spelling was not supported by either official source.
+The authors do not use the term “world model.” They propose an ensemble of LSTM predictors that separates aleatoric and epistemic components of predictive RUL uncertainty. The final PHM Society proceedings page and the paper PDF use the spelling `Abhishek Srinivasan`, while the arXiv landing-page metadata uses `Ahbishek Srinivasan`. This note keeps `Abhishek Srinivasan` as the canonical author value because it matches the final published proceedings.
 
 ## Our Preliminary Classification
 
