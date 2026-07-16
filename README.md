@@ -8,8 +8,10 @@ A survey companion repository for studying how learned system states and tempora
 [![Contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg)](CONTRIBUTING.md)
 [![Validate Repository](https://github.com/ChengZ2003/World-Models-for-PHM/actions/workflows/validate.yml/badge.svg)](https://github.com/ChengZ2003/World-Models-for-PHM/actions/workflows/validate.yml)
 
-> **Current stage:** Repository foundation, taxonomy development, and initial literature verification.
+> **Current stage:** Phase 1B pilot literature preparation and related-resource verification.
 > No public benchmark implementation or validated leaderboard is available yet.
+
+> **Pilot literature review:** A small candidate set is being used to test the taxonomy and metadata schema. Pilot classifications are not yet verified and are not included in the generated paper lists.
 
 ## Overview
 
@@ -97,9 +99,11 @@ This is more than a paper list. The repository is designed around verified metad
 
 Real paper records are maintained in [`data/papers.csv`](data/papers.csv), the structured source of truth. The [generated paper index](papers/generated/index.md) contains only manually verified records. Handwritten task pages define scope and inclusion considerations; they do not duplicate paper tables.
 
+Current structured counts are 7 unverified pilot candidates, 0 verified papers, and 7 completed pilot note drafts. See the [pilot review guide](docs/PILOT_REVIEW_GUIDE.md) before recording any human review.
+
 ## Related Projects
 
-This repository builds on and complements existing efforts in general world models, predictive maintenance, PHM benchmarking, multivariate anomaly detection, and RUL literature curation. The structured landscape and its verification policy are in [`resources/related_repositories.md`](resources/related_repositories.md).
+This repository builds on and complements existing efforts in general world models, predictive maintenance, PHM benchmarking, multivariate anomaly detection, and RUL literature curation. The structured landscape currently contains 8 verified repositories; its verification policy is in [`resources/related_repositories.md`](resources/related_repositories.md).
 
 ## Current Status
 
@@ -109,8 +113,11 @@ This repository builds on and complements existing efforts in general world mode
 | Terminology | Draft | Subject to refinement |
 | Inclusion criteria | Draft | Requires validation on real papers |
 | Phase 1A candidate schema | Draft | Pending validation through 6–8 pilot papers |
-| Search and screening methodology | Draft | Protocol defined; no completed search claimed |
-| Verified literature database | In progress | Initial manual verification pending |
+| Related repository landscape | Available | 8 repositories checked against official GitHub READMEs |
+| Pilot paper candidates | In progress | 7 candidates and notes pending dual human review |
+| Verified paper database | Not yet available | 0 verified papers; pilot candidates remain unverified |
+| Taxonomy validation | In progress | Pending independent pilot reviews and consensus |
+| Full systematic search | Not started | Begins only after pilot validation |
 | Reproduction index | Planned | No reproduced result claimed |
 | Benchmark protocols | Draft | Documentation only |
 | Benchmark implementation | Not available | Future work |

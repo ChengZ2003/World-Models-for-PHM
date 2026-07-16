@@ -4,6 +4,8 @@
 
 Handwritten topic pages contain task definitions, scope notes, inclusion considerations, and survey observations. They link to the generated index rather than maintaining separate paper lists.
 
+Phase 1B has prepared seven unverified pilot candidates and evidence notes to test the candidate taxonomy. They remain excluded from generated verified-paper pages. Two human reviewers should follow the [`pilot review guide`](../docs/PILOT_REVIEW_GUIDE.md) independently; review-dependent findings belong in [`PILOT_FINDINGS.md`](../docs/PILOT_FINDINGS.md).
+
 | Page | Focus |
 | --- | --- |
 | [`general_world_models.md`](general_world_models.md) | General concepts relevant to dynamic-state modeling |
