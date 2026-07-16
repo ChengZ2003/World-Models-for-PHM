@@ -1,0 +1,38 @@
+name: Validate Repository
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validate metadata and generated files
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+
+      - name: Compile Python scripts
+        run: python -m compileall scripts
+
+      - name: Validate structured metadata
+        run: python scripts/validate_metadata.py
+
+      - name: Generate verified paper tables
+        run: python scripts/generate_paper_tables.py
+
+      - name: Generate related-repository table
+        run: python scripts/generate_repository_table.py
+
+      - name: Check generated-file consistency
+        run: git diff --exit-code

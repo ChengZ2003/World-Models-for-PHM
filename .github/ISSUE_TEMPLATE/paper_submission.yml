@@ -44,20 +44,38 @@ body:
     id: category
     attributes:
       label: Proposed World Model category
-      options: [Strict World Model, World-Model-Like Dynamics Model, Related Predictive Model]
+      options: [Strict World Model, World-Model-Like Dynamics Model, Related Predictive Model, Uncertain]
+    validations: {required: true}
+  - type: dropdown
+    id: scope_confidence
+    attributes:
+      label: Scope confidence
+      options: [High, Medium, Low, Unknown]
     validations: {required: true}
   - type: textarea
     id: dynamics
-    attributes: {label: Dynamics mechanism}
+    attributes:
+      label: Evidence for dynamics modeling
+      description: Identify the state representation, transition mechanism, and supporting paper section.
     validations: {required: true}
   - type: textarea
     id: rollout
     attributes: {label: Rollout capability}
     validations: {required: true}
+  - type: dropdown
+    id: rollout_role
+    attributes:
+      label: Is rollout or future prediction central or auxiliary?
+      options: [Central, Auxiliary, Not present, Unclear]
+    validations: {required: true}
   - type: checkboxes
     id: verified
     attributes:
-      label: Metadata verification
+      label: Manual verification
       options:
-        - label: I verified the title, authors, year, venue, and URLs against reliable sources.
+        - label: I checked the title, authors, year, venue, and URLs against official or reliable sources.
+          required: true
+        - label: I checked the method description in the official paper source rather than relying only on a title, abstract, or repository summary.
+          required: true
+        - label: I did not submit a model-generated citation or metadata record without manual verification.
           required: true

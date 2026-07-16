@@ -1,6 +1,8 @@
 # Papers
 
-Topic pages organize survey notes without claiming completeness. Real records live in [`../data/papers.csv`](../data/papers.csv), must pass the repository inclusion criteria, and remain unverified until manually checked. Generated tables under `generated/` include only records marked `verified=true`.
+[`../data/papers.csv`](../data/papers.csv) is the only source of truth for structured paper records. Generated tables under [`generated/`](generated/index.md) include only records marked `verified=true` and must not be edited manually.
+
+Handwritten topic pages contain task definitions, scope notes, inclusion considerations, and survey observations. They link to the generated index rather than maintaining separate paper lists.
 
 | Page | Focus |
 | --- | --- |
@@ -13,3 +15,12 @@ Topic pages organize survey notes without claiming completeness. Real records li
 | [`rul_prediction.md`](rul_prediction.md) | Remaining-life estimation |
 | [`predictive_maintenance.md`](predictive_maintenance.md) | Maintenance planning from predicted evolution |
 | [`foundation_models.md`](foundation_models.md) | Pretraining and transfer for PHM dynamics |
+
+After changing paper metadata, run the standard validation and generation workflow documented in [`../scripts/README.md`](../scripts/README.md) and submit the generated changes with the CSV.
+
+```bash
+python3 scripts/validate_metadata.py
+python3 scripts/generate_paper_tables.py
+python3 scripts/generate_repository_table.py
+git diff
+```

@@ -60,11 +60,11 @@ URL_FIELDS: dict[str, set[str]] = {
     "datasets.csv": {"official_url"},
     "repositories.csv": {"url"},
 }
-KEY_FIELDS: dict[str, tuple[str, ...]] = {
+VERIFIED_REQUIRED_FIELDS: dict[str, tuple[str, ...]] = {
     "papers.csv": (
-        "title", "year", "authors", "venue", "paper_url", "task",
-        "world_model_scope", "representation_space", "transition_type",
-        "learning_objective", "datasets", "verified", "last_checked",
+        "id", "title", "year", "authors", "venue", "paper_url", "task",
+        "world_model_scope", "scope_confidence", "representation_space",
+        "transition_type", "learning_objective", "notes", "last_checked",
     ),
     "datasets.csv": ("name", "task", "domain", "official_url", "license", "last_checked"),
     "repositories.csv": ("id", "name", "category", "url", "description", "relationship", "last_checked"),
@@ -74,11 +74,23 @@ KEY_FIELDS: dict[str, tuple[str, ...]] = {
 @dataclass
 class ValidationResult:
     errors: list[str]
+    warnings: list[str]
     row_count: int = 0
+    verified_count: int = 0
+    unverified_or_example_count: int = 0
 
 
 def is_todo(value: str) -> bool:
     return not value.strip() or value.strip().upper() == "TODO"
+
+
+def is_example(value: str) -> bool:
+    return "EXAMPLE" in value.strip().upper()
+
+
+def is_unresolved(value: str, *, allow_unknown: bool = False) -> bool:
+    normalized = value.strip().upper()
+    return is_todo(value) or is_example(value) or (normalized == "UNKNOWN" and not allow_unknown)
 
 
 def valid_url(value: str) -> bool:
@@ -91,6 +103,8 @@ def valid_url(value: str) -> bool:
 def valid_date(value: str) -> bool:
     if is_todo(value):
         return True
+    if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", value):
+        return False
     try:
         datetime.strptime(value, "%Y-%m-%d")
     except ValueError:
@@ -116,13 +130,22 @@ def read_csv(path: Path, expected_header: list[str]) -> tuple[list[dict[str, str
 
 def validate_file(path: Path, expected_header: list[str]) -> ValidationResult:
     rows, errors = read_csv(path, expected_header)
+    warnings: list[str] = []
     filename = path.name
     seen: dict[str, int] = {}
     identifier = "id" if "id" in expected_header else ("name" if "name" in expected_header else "method")
+    verified_count = 0
+    unverified_or_example_count = 0
 
     for line_number, row in enumerate(rows, start=2):
         prefix = f"{path}:{line_number}"
         record_id = row.get(identifier, "").strip()
+        verified = row.get("verified") == "true"
+        example_record = any(is_example(value) for value in row.values())
+        if verified:
+            verified_count += 1
+        else:
+            unverified_or_example_count += 1
         if not record_id:
             errors.append(f"{prefix}: missing {identifier}")
         elif record_id in seen:
@@ -140,6 +163,8 @@ def validate_file(path: Path, expected_header: list[str]) -> ValidationResult:
                 errors.append(f"{prefix}: invalid world_model_scope {row['world_model_scope']!r}")
             if row["scope_confidence"] not in SCOPE_CONFIDENCES:
                 errors.append(f"{prefix}: invalid scope_confidence {row['scope_confidence']!r}")
+            if row["world_model_scope"] == "uncertain" and row["scope_confidence"] == "high":
+                errors.append(f"{prefix}: uncertain scope cannot have high confidence")
 
         if filename == "methods.csv":
             if row["world_model_scope"] not in WORLD_MODEL_SCOPES:
@@ -159,17 +184,40 @@ def validate_file(path: Path, expected_header: list[str]) -> ValidationResult:
         if "last_checked" in row and not valid_date(row["last_checked"]):
             errors.append(f"{prefix}: last_checked must be TODO or YYYY-MM-DD")
 
-        if row.get("verified") == "true":
-            for field in KEY_FIELDS.get(filename, ()):
-                if is_todo(row[field]):
+        if verified:
+            if example_record:
+                errors.append(f"{prefix}: example records cannot be verified")
+            for field in VERIFIED_REQUIRED_FIELDS.get(filename, ()):
+                if is_unresolved(row[field]):
                     errors.append(f"{prefix}: verified record has unresolved key field {field}")
 
-    return ValidationResult(errors=errors, row_count=len(rows))
+            if filename == "papers.csv":
+                if not valid_url(row["paper_url"]) or is_todo(row["paper_url"]):
+                    errors.append(f"{prefix}: verified paper must have a valid HTTP(S) paper_url")
+                if is_todo(row["code_url"]):
+                    warnings.append(f"{prefix}: verified paper has no confirmed code URL")
+                if row["world_model_scope"] == "uncertain" and row["scope_confidence"] == "medium":
+                    warnings.append(f"{prefix}: uncertain scope is usually recorded with low confidence")
+
+            if filename == "repositories.csv":
+                if not valid_url(row["url"]) or is_todo(row["url"]):
+                    errors.append(f"{prefix}: verified repository must have a valid HTTP(S) URL")
+
+    return ValidationResult(
+        errors=errors,
+        warnings=warnings,
+        row_count=len(rows),
+        verified_count=verified_count,
+        unverified_or_example_count=unverified_or_example_count,
+    )
 
 
 def main() -> int:
     all_errors: list[str] = []
+    all_warnings: list[str] = []
     total_rows = 0
+    total_verified = 0
+    total_unverified_or_example = 0
     for filename, header in SCHEMAS.items():
         path = ROOT / "data" / filename
         if not path.is_file():
@@ -177,7 +225,21 @@ def main() -> int:
             continue
         result = validate_file(path, header)
         all_errors.extend(result.errors)
+        all_warnings.extend(result.warnings)
         total_rows += result.row_count
+        total_verified += result.verified_count
+        total_unverified_or_example += result.unverified_or_example_count
+
+    for warning in all_warnings:
+        print(f"WARNING: {warning}", file=sys.stderr)
+
+    print("Metadata validation summary:")
+    print(f"- Files checked: {len(SCHEMAS)}")
+    print(f"- Records checked: {total_rows}")
+    print(f"- Verified records: {total_verified}")
+    print(f"- Unverified/example records: {total_unverified_or_example}")
+    print(f"- Warnings: {len(all_warnings)}")
+    print(f"- Errors: {len(all_errors)}")
 
     if all_errors:
         print(f"Metadata validation failed with {len(all_errors)} error(s):", file=sys.stderr)
@@ -185,7 +247,7 @@ def main() -> int:
             print(f"- {error}", file=sys.stderr)
         return 1
 
-    print(f"Metadata validation passed: {len(SCHEMAS)} files, {total_rows} records, 0 errors.")
+    print("Metadata validation passed.")
     return 0
 
 
