@@ -26,4 +26,4 @@ Each record must document repository name, category, current focus, main scope, 
 
 ## Verified Landscape
 
-See the [generated related-repository table](generated_related_repositories.md). Its empty state means that no record has completed manual verification; it does not imply that related projects do not exist.
+See the [generated related-repository table](generated_related_repositories.md). Phase 1B records eight repositories whose official GitHub READMEs were inspected on 2026-07-16. Inclusion maps adjacent ecosystems and does not endorse a project or imply identical scope.
