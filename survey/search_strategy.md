@@ -88,13 +88,13 @@ Backward reference checks and forward citation checks are planned for included s
 4. Add candidate metadata to `papers.csv` with `verified=false`.
 5. Two reviewers independently complete all seven classification questions in `paper_reviews.csv`.
 6. Resolve scope disagreements and document consensus.
-7. Set `verified=true` only after metadata, rationale, evidence locations, and two approved reviews agree.
+7. Preserve independent reviewer judgments, record how disagreement was resolved in the paper consensus fields, and set `verified=true` only after two approved reviews and complete consensus metadata exist.
 
 `verified=true` does not mean that experimental claims or results have been independently reproduced.
 
 ## Disagreement Resolution
 
-Reviewers first compare evidence locations and the mechanism-based criteria. Unresolved cases remain `uncertain` with low confidence. A third reviewer may adjudicate, but the original reviews must remain visible. Classification must not be forced merely to simplify counts.
+Reviewers first compare evidence locations and the mechanism-based criteria. Their original proposed scope and confidence remain unchanged in `paper_reviews.csv`. The final classification and resolution rationale are recorded in `papers.csv`. Unresolved cases remain `uncertain` with low confidence. A third reviewer may adjudicate and remain as an additional review. Classification must not be forced merely to simplify counts.
 
 ## Update Schedule
 

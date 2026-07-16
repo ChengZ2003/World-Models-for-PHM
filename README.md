@@ -87,7 +87,7 @@ This is more than a paper list. The repository is designed around verified metad
 
 ## Source of Truth
 
-- **Controlled values:** `data/vocabularies.json` defines the frozen vocabulary used by structured fields.
+- **Controlled values:** `data/vocabularies.json` defines candidate controlled vocabularies pending validation through pilot papers.
 - **Entity metadata:** `data/papers.csv`, `data/datasets.csv`, `data/methods.csv`, and `data/repositories.csv` are the sources of truth for literature and resource entities.
 - **Review provenance:** `data/paper_reviews.csv`, `data/search_runs.csv`, and `data/screening.csv` are the sources of truth for classification reviews, searches, and screening decisions.
 - **Generated views:** `papers/generated/` and `resources/generated_related_repositories.md` contain verified-only Markdown generated from CSV. Do not edit their data rows manually.
@@ -108,6 +108,7 @@ This repository builds on and complements existing efforts in general world mode
 | Repository structure | Available | Initial structure and contribution workflow |
 | Terminology | Draft | Subject to refinement |
 | Inclusion criteria | Draft | Requires validation on real papers |
+| Phase 1A candidate schema | Draft | Pending validation through 6–8 pilot papers |
 | Search and screening methodology | Draft | Protocol defined; no completed search claimed |
 | Verified literature database | In progress | Initial manual verification pending |
 | Reproduction index | Planned | No reproduced result claimed |
@@ -149,8 +150,8 @@ Every pull request automatically runs Python syntax compilation, vocabulary and 
 2. Perform dual title/abstract and full-text screening.
 3. Add candidate metadata with `verified=false`.
 4. Have two different reviewers answer the seven inclusion questions independently.
-5. Resolve scope disagreement and record consensus evidence.
-6. Set `verified=true` only after two approved reviews agree with the paper classification.
+5. Preserve the independent reviews, resolve disagreements, and record the final consensus in `papers.csv`.
+6. Set `verified=true` only after two approved reviews and complete consensus metadata exist.
 7. Regenerate Markdown and let CI check source/generated consistency.
 
 See the draft [search strategy](survey/search_strategy.md) and [inclusion criteria](taxonomy/inclusion_criteria.md). Verification covers metadata and classification review; it does not imply independent reproduction of experimental results.

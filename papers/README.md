@@ -1,6 +1,6 @@
 # Papers
 
-[`../data/papers.csv`](../data/papers.csv) is the source of truth for structured paper records, while [`../data/paper_reviews.csv`](../data/paper_reviews.csv) records independent classification evidence. Generated tables under [`generated/`](generated/index.md) include only papers backed by two approved, scope-consistent reviews and marked `verified=true`; generated files must not be edited manually.
+[`../data/papers.csv`](../data/papers.csv) is the source of truth for structured paper records and final consensus classification, while [`../data/paper_reviews.csv`](../data/paper_reviews.csv) preserves independent reviewer judgments. Generated tables under [`generated/`](generated/index.md) include only papers backed by two approved reviews, complete consensus metadata, and `verified=true`; generated files must not be edited manually.
 
 Handwritten topic pages contain task definitions, scope notes, inclusion considerations, and survey observations. They link to the generated index rather than maintaining separate paper lists.
 

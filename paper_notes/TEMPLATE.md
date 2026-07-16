@@ -11,6 +11,8 @@
 - Dataset:
 - World Model Scope:
 - Scope Confidence:
+- Consensus Reached:
+- Consensus Date:
 
 ## Problem
 
@@ -23,6 +25,8 @@
 ## Classification Rationale
 
 ## Evidence Locations
+
+## Reviewer Disagreement and Consensus Resolution
 
 ## System State Representation
 

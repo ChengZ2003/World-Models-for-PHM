@@ -52,8 +52,9 @@ Target 10–20 verified papers without attempting exhaustive coverage. Select re
 - [ ] Official paper and code sources are checked where available
 - [ ] Classification rationale and confidence are recorded
 - [ ] Two different reviewers independently complete all seven questions
-- [ ] Approved reviews agree on scope and cite evidence locations
-- [ ] The paper scope matches review consensus before `verified=true`
+- [ ] Approved reviews preserve independent scope and confidence judgments
+- [ ] Disagreements are explicitly resolved in the paper consensus fields
+- [ ] The final paper scope and confidence represent consensus before `verified=true`
 - [ ] Multiple tasks use semicolon-delimited controlled values
 - [ ] Generated task pages match `data/papers.csv`
 
@@ -94,7 +95,7 @@ Use the seed papers to test whether the taxonomy can be applied consistently, wh
 ## Overall Completion Criteria
 
 - [ ] Recommended content targets have been reviewed, or deviations are explained
-- [ ] All verified papers have two approved, scope-consistent review records
+- [ ] All verified papers have two approved independent reviews and complete final-consensus metadata
 - [ ] Search and screening provenance is complete for seed papers
 - [ ] Validation and generation scripts pass
 - [ ] Generated files match structured sources

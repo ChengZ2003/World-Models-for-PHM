@@ -16,13 +16,13 @@ from urllib.parse import urlparse
 
 ROOT = Path(__file__).resolve().parents[1]
 SCHEMAS: dict[str, list[str]] = {
-    "papers.csv": "id,title,year,authors,venue,paper_url,code_url,tasks,world_model_scope,scope_confidence,classification_rationale,evidence_locations,representation_space,transition_type,learning_objective,rollout_capability,action_conditioned,physics_informed,uncertainty_modeling,datasets,metrics,application_domain,open_source,paper_note_path,notes,verified,last_checked".split(","),
+    "papers.csv": "id,title,year,authors,venue,paper_url,code_url,tasks,world_model_scope,scope_confidence,consensus_reached,consensus_date,consensus_rationale,classification_rationale,evidence_locations,representation_space,transition_type,learning_objective,rollout_capability,action_conditioned,physics_informed,uncertainty_modeling,datasets,metrics,application_domain,open_source,paper_note_path,notes,verified,last_checked".split(","),
     "datasets.csv": "name,task,domain,multivariate,run_to_failure,contains_actions,contains_operating_conditions,labels,official_url,license,redistribution_allowed,download_instructions,notes,verified,last_checked".split(","),
     "methods.csv": "method,reference_id,task,world_model_scope,representation_space,transition_type,learning_objective,rollout_capability,probabilistic,action_conditioned,physics_informed,open_source,reproduction_status,notes".split(","),
     "repositories.csv": "id,name,category,url,description,main_scope,relationship,last_checked,verified,notes".split(","),
     "paper_reviews.csv": "paper_id,reviewer,review_date,q1,q2,q3,q4,q5,q6,q7,proposed_scope,scope_confidence,classification_rationale,evidence_locations,approved,notes".split(","),
     "search_runs.csv": "search_id,database,query,search_date,date_start,date_end,result_count,export_file,notes,verified".split(","),
-    "screening.csv": "candidate_id,title,source_search_ids,stage,reviewer_1,decision_1,reviewer_2,decision_2,consensus_decision,exclusion_reason,notes,last_checked".split(","),
+    "screening.csv": "screening_id,candidate_id,title,doi,source_url,external_id,source_search_ids,stage,reviewer_1,decision_1,reviewer_2,decision_2,consensus_decision,exclusion_reason,notes,last_checked".split(","),
 }
 REQUIRED_VOCABULARIES = {
     "tasks",
@@ -81,6 +81,13 @@ def valid_url(value: str) -> bool:
         return True
     parsed = urlparse(value.strip())
     return parsed.scheme in {"http", "https"} and bool(parsed.netloc)
+
+
+def valid_doi(value: str) -> bool:
+    """Accept an empty/TODO DOI or a canonical bare DOI value."""
+    if is_todo(value):
+        return True
+    return bool(re.fullmatch(r"10\.\d{4,9}/[-._;()/:A-Z0-9]+", value.strip(), re.IGNORECASE))
 
 
 def valid_date(value: str) -> bool:
@@ -220,15 +227,18 @@ class MetadataValidator:
         self.check_unique(filename, "id")
         required_verified = (
             "id", "title", "year", "authors", "venue", "paper_url", "tasks",
-            "world_model_scope", "scope_confidence", "classification_rationale",
-            "evidence_locations", "representation_space", "transition_type",
-            "learning_objective", "rollout_capability", "notes", "last_checked",
+            "world_model_scope", "scope_confidence", "consensus_date",
+            "consensus_rationale", "classification_rationale", "evidence_locations",
+            "representation_space", "transition_type", "learning_objective",
+            "rollout_capability", "notes", "last_checked",
         )
         for line, row in enumerate(self.rows.get(filename, []), start=2):
             verified = row["verified"] == "true"
             example = any(is_example(value) for value in row.values())
             if row["verified"] not in STRICT_BOOLEAN:
                 self.error(filename, line, "verified must be true or false")
+            if row["consensus_reached"] not in STRICT_BOOLEAN:
+                self.error(filename, line, "consensus_reached must be true or false")
             if verified:
                 self.summaries[filename].verified_or_approved += 1
             else:
@@ -261,10 +271,14 @@ class MetadataValidator:
                     self.error(filename, line, f"{field_name} must be empty, TODO, or an HTTP(S) URL")
             if not is_todo(row["last_checked"]) and not valid_date(row["last_checked"]):
                 self.error(filename, line, "last_checked must be TODO or YYYY-MM-DD")
+            if not is_todo(row["consensus_date"]) and not valid_date(row["consensus_date"]):
+                self.error(filename, line, "consensus_date must be TODO or YYYY-MM-DD")
             if row["world_model_scope"] == "uncertain" and row["scope_confidence"] == "high":
                 self.error(filename, line, "uncertain scope cannot have high confidence")
 
             if verified:
+                if row["consensus_reached"] != "true":
+                    self.error(filename, line, "verified paper requires consensus_reached=true")
                 for field_name in required_verified:
                     if is_unresolved(row[field_name]):
                         self.error(filename, line, f"verified paper has unresolved required field {field_name}")
@@ -396,10 +410,28 @@ class MetadataValidator:
 
     def validate_screening(self) -> None:
         filename = "screening.csv"
-        self.check_unique(filename, "candidate_id")
+        self.check_unique(filename, "screening_id")
         search_ids = {row["search_id"] for row in self.rows.get("search_runs.csv", [])}
+        candidate_stages: dict[tuple[str, str], int] = {}
         for line, row in enumerate(self.rows.get(filename, []), start=2):
             self.summaries[filename].unverified_or_example += 1
+            for field_name in ("candidate_id", "title"):
+                if is_todo(row[field_name]):
+                    self.error(filename, line, f"{field_name} cannot be empty or TODO")
+            self.controlled(filename, line, "stage", row["stage"], "screening_stages", allow_todo=False)
+            pair = (row["candidate_id"].strip(), row["stage"].strip())
+            if pair in candidate_stages:
+                self.error(
+                    filename,
+                    line,
+                    f"duplicate candidate_id/stage pair; first seen on line {candidate_stages[pair]}",
+                )
+            else:
+                candidate_stages[pair] = line
+            if not valid_doi(row["doi"]):
+                self.error(filename, line, "doi must be empty, TODO, or a canonical bare DOI")
+            if not valid_url(row["source_url"]):
+                self.error(filename, line, "source_url must be empty, TODO, or an HTTP(S) URL")
             source_ids = []
             if not is_todo(row["source_search_ids"]):
                 if "," in row["source_search_ids"]:
@@ -412,16 +444,27 @@ class MetadataValidator:
             for search_id in source_ids:
                 if search_id not in search_ids:
                     self.error(filename, line, f"source_search_id {search_id!r} does not reference search_runs.csv")
-            self.controlled(filename, line, "stage", row["stage"], "screening_stages")
             for field_name in ("decision_1", "decision_2", "consensus_decision"):
                 self.controlled(filename, line, field_name, row[field_name], "screening_decisions")
             for reviewer_field, decision_field in (("reviewer_1", "decision_1"), ("reviewer_2", "decision_2")):
                 if is_todo(row[reviewer_field]) != is_todo(row[decision_field]):
                     self.error(filename, line, f"{reviewer_field} and {decision_field} must be completed together")
+            reviewers_complete = not is_todo(row["reviewer_1"]) and not is_todo(row["reviewer_2"])
+            if reviewers_complete and row["reviewer_1"].strip().casefold() == row["reviewer_2"].strip().casefold():
+                self.error(filename, line, "reviewer_1 and reviewer_2 must be different people")
+            consensus = row["consensus_decision"].strip()
+            if not is_todo(consensus) and consensus != "pending":
+                if not reviewers_complete:
+                    self.error(filename, line, "completed consensus requires both reviewers")
+                for decision_field in ("decision_1", "decision_2"):
+                    if is_todo(row[decision_field]) or row[decision_field] == "pending":
+                        self.error(filename, line, f"completed consensus requires a non-pending {decision_field}")
+            if consensus == "exclude" and is_unresolved(row["exclusion_reason"]):
+                self.error(filename, line, "exclude consensus requires a non-placeholder exclusion_reason")
             if not is_todo(row["last_checked"]) and not valid_date(row["last_checked"]):
                 self.error(filename, line, "last_checked must be TODO or YYYY-MM-DD")
 
-    def validate_review_consensus(self) -> None:
+    def validate_paper_consensus(self) -> None:
         reviews_by_paper: dict[str, list[dict[str, str]]] = {}
         for review in self.rows.get("paper_reviews.csv", []):
             if review["approved"] == "true" and not any(is_example(value) for value in review.values()):
@@ -435,10 +478,18 @@ class MetadataValidator:
                 self.error("papers.csv", line, "verified paper requires approved reviews from at least two different reviewers")
                 continue
             scopes = {review["proposed_scope"] for review in reviews}
-            if len(scopes) != 1:
-                self.error("papers.csv", line, "approved reviews disagree on proposed_scope; consensus is required")
-            elif next(iter(scopes)) != paper["world_model_scope"]:
-                self.error("papers.csv", line, "paper world_model_scope does not match approved-review consensus")
+            confidences = {review["scope_confidence"] for review in reviews}
+            if len(scopes) > 1 or len(confidences) > 1:
+                rationale = paper["consensus_rationale"].strip().casefold()
+                missing_values = sorted(
+                    value for value in scopes | confidences if value.casefold() not in rationale
+                )
+                if missing_values or not any(token in rationale for token in ("resolv", "consensus", "adjudicat")):
+                    self.error(
+                        "papers.csv",
+                        line,
+                        "review disagreement requires consensus_rationale to name the differing values and explain resolution",
+                    )
 
     def run(self) -> int:
         self.load_vocabularies()
@@ -451,7 +502,7 @@ class MetadataValidator:
             self.validate_reviews()
             self.validate_search_runs()
             self.validate_screening()
-            self.validate_review_consensus()
+            self.validate_paper_consensus()
 
         all_warnings = [item for summary in self.summaries.values() for item in summary.warnings]
         all_errors = [item for summary in self.summaries.values() for item in summary.errors]

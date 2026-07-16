@@ -23,7 +23,9 @@ This roadmap separates completed repository foundations from planned research an
 
 ### Phase 1A — Schema and Methodology Foundation
 
-Freeze controlled vocabularies and CSV schemas before literature entry. Define auditable search runs, dual screening, independent seven-question reviews, scope consensus, cross-file validation, and multi-task generation. The methodology documents describe intended procedures and do not claim that searches have already been executed.
+Develop a Phase 1A candidate schema and candidate controlled vocabularies before broad literature entry. Define auditable search runs, multi-stage dual screening, independent seven-question reviews, explicit final consensus, cross-file validation, and multi-task generation. The methodology documents describe intended procedures and do not claim that searches have already been executed.
+
+Formal schema freeze is planned only after 6–8 pilot papers have exercised metadata extraction, independent review, disagreement resolution, and generation.
 
 ### Phase 1B — Initial Verified Collection
 
@@ -97,7 +99,8 @@ Long-term directions include shared latent dynamics, joint anomaly and RUL model
 - [x] Establish repository structure
 - [x] Draft operational definition and inclusion criteria
 - [x] Add metadata validation and generation tooling
-- [x] Define controlled vocabularies and dual-review schemas
+- [x] Define candidate controlled vocabularies and dual-review schemas
+- [ ] Validate the candidate schema with 6–8 pilot papers and formally freeze it
 - [x] Draft the auditable survey search and screening method
 - [ ] Approve maintainer and citation placeholders
 - [ ] Execute and verify the first search run
